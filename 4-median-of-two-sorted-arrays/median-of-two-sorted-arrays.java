@@ -2,7 +2,6 @@ class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int d = nums1.length + nums2.length ;
         int[] m = new int[d];
-        int sum=0;
         int i = 0, j = 0, k = 0;
         while (i < nums1.length && j < nums2.length) {
             if (nums1[i] <= nums2[j]) {
