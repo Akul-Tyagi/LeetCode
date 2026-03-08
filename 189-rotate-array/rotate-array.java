@@ -1,23 +1,19 @@
 class Solution {
     public void rotate(int[] nums, int k) {
-        int n = nums.length;
-        LinkedList<Integer> ll = new LinkedList<>();
+        k %= nums.length;
 
-        for(int elements: nums){
-            ll.add(elements);
-        }
-
-        int count = 0;
-
-        while(count!=k){
-            int element = ll.removeLast();
-            ll.addFirst(element);
-            count++;
-        }
-
-        int i  =0;
-        for(int elements: ll){
-            nums[i++] = elements;
-        }
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
     }
+
+    private void reverse(int[] nums, int left, int right) {
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+    }    
 }
