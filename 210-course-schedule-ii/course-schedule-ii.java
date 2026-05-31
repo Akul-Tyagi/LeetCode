@@ -1,37 +1,42 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         List<List<Integer>> graph = new ArrayList<>();
-        int[] inDegree = new int[numCourses];
+        int[] indegree = new int[numCourses];
 
-        for (int i = 0; i < numCourses; i++) {
+        for(int i=0; i<numCourses; i++){
             graph.add(new ArrayList<>());
         }
 
-        for (int[] edge : prerequisites) {
-            int course = edge[0];
+        for(int[] edge: prerequisites ){
             int prereq = edge[1];
+            int course = edge[0];
             graph.get(prereq).add(course);
-            inDegree[course]++;
+            indegree[course]++;
         }
 
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < numCourses; i++) {
-            if (inDegree[i] == 0) queue.offer(i);
-        }
+        Queue<Integer> q = new LinkedList<>();
 
-        int[] order = new int[numCourses];
-        int index = 0;
-
-        while (!queue.isEmpty()) {
-            int curr = queue.poll();
-            order[index++] = curr;
-
-            for (int neighbor : graph.get(curr)) {
-                inDegree[neighbor]--;
-                if (inDegree[neighbor] == 0) queue.offer(neighbor);
+        for(int i=0; i<numCourses; i++){
+            if(indegree[i] == 0){
+                q.offer(i);
             }
         }
 
-        return index == numCourses ? order : new int[0];
+        int[] order = new int[numCourses];
+        int idx=0;
+
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            order[idx++] = curr;
+
+            for(int neighbours : graph.get(curr)){
+                indegree[neighbours]--;
+                if(indegree[neighbours]==0){
+                    q.offer(neighbours);
+                }
+            }
+        }
+
+        return idx == numCourses? order : new int[0];
     }
 }
